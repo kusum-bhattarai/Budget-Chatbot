@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Chatbot</title>
+    <script src=""https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Welcome to ChatBud!</h1>
+    <div id="chat-box">
+        <div id="messages"></div>
+        <input type="text" id="message" placeholder="Type a message">
+        <button id="send">Send</button>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#send').click(function(){
+                var message=$('message').val();
+                $.ajax({
+                    url: '/chat',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({message: message}),
+                    success: function(response){
+                        $('#messages').append('<div>'+response.response+'</div>');
+                        $('#message').val('');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
