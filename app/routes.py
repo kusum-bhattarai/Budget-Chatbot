@@ -15,3 +15,14 @@ def chat():
     message=request.json.get('message')
     response=chatbot.respond(message)
     return jsonify({"response": response})
+
+@main.route('/set_budget', methods=['POST'])
+def set_budget():
+    amount=request.json.get('amount')
+    chatbot.budget=amount
+    return jsonify({"response": f"Budget set to {amount}."})
+
+@main.route('/advice', methods=['GET'])
+def advice():
+    response=chatbot.provide_advice()
+    return jsonify({"response": response})
