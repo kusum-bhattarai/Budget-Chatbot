@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard</h1>
+        <p>Budget: {{ budget }}</p>
+        <p>Savings Goal: {{ savings_goal }}</p>
+        <p>Current Savings: {{ current_savings }}</p>
+        <p>Remaining to Savings Goal: {{ remaining_to_goal }}</p>
+
+        <h2>Expenses</h2>
+        <ul>
+            {% for expense in expenses %}
+                <li>{{ expense.name }}: {{ expense.amount }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Chat with Bot</h2>
+        <div id="chat">
+            <div id="messages"></div>
+            <input type="text" id="message-input" placeholder="Type a message">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+</body>
+</html>

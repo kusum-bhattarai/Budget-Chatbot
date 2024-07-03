@@ -1,18 +1,23 @@
-document.getElementById('chat-form').addEventListener('submit', async function(event){
-    event.preventDefault();
-    const message=document.getElementById('message').value;
-    const responseDiv=document.getElementById('response');
+function sendMessage() {
+    const input = document.getElementById('message-input');
+    const message = input.value;
+    if (!message) return;
 
-    const response=await fetch('/chat', {
+    const messagesDiv = document.getElementById('messages');
+    messagesDiv.innerHTML += `<div><strong>You:</strong> ${message}</div>`;
+
+    fetch('/chat', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify({message})
-    });
-    
-    const data=await response.json();
-    responseDiv.innerHTML+=`<p><strong>You:</strong> ${message}</p><p><strong>Bud:</strong> ${data.response}</p>`;
-    document.getElementById('message').value='';
-    responseDiv.scrollTop=responseDiv.scrollHeight;
-});
+        body: JSON.stringify({ message }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        messagesDiv.innerHTML += `<div><strong>Bot:</strong> ${data.response}</div>`;
+        input.value = '';
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    })
+    .catch(error => console.error('Error:', error));
+}
