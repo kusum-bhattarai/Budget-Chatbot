@@ -11,6 +11,21 @@ body {
     margin: 0 auto;
 }
 
+.navbar {
+    background-color: #1a3b5d;
+    padding: 10px;
+}
+
+.navbar a {
+    color: #e0e1dd;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
 h1, h2 {
     color: #f0a500;
 }
