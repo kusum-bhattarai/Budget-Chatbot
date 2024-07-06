@@ -1,84 +1,115 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #0d1b2a;
-    color: #e0e1dd;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
+.header {
+    background-color: #002147; /* Dark Blue */
+    color: #FFFDD0; /* Cream */
+    padding: 1em;
+    text-align: center;
 }
 
-.navbar {
-    background-color: #1a3b5d;
-    padding: 10px;
+.main-content {
+    display: flex;
 }
 
-.navbar a {
-    color: #e0e1dd;
-    margin: 0 10px;
-    text-decoration: none;
+.sidebar {
+    background-color: #002147;
+    color: white;
+    width: 200px;
+    height: 100vh;
+    padding: 1em;
 }
 
-.navbar a:hover {
-    text-decoration: underline;
-}
-
-h1, h2 {
-    color: #f0a500;
-}
-
-form {
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 10px;
-}
-
-form label {
+.sidebar button {
     display: block;
-    margin-bottom: 5px;
-}
-
-form input {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+    padding: 1em;
+    margin-bottom: 1em;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    text-align: left;
 }
 
-button {
-    padding: 10px 15px;
-    background-color: #f0a500;
+.sidebar button:hover {
+    background-color: #0056b3;
+}
+
+.page-content {
+    padding: 1em;
+    flex: 1;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+#expense-list {
+    margin-bottom: 1em;
+}
+
+.expense-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5em;
+}
+
+.delete-button {
+    background-color: red;
+    color: white;
     border: none;
-    color: #0d1b2a;
+    padding: 0.5em;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #d48c00;
+.delete-button:hover {
+    background-color: darkred;
 }
 
-#chat {
-    margin-top: 20px;
+.chart-container {
+    width: 80%;
+    margin: 0 auto;
 }
 
-#messages {
-    height: 200px;
-    overflow-y: auto;
-    border: 1px solid #e0e1dd;
-    padding: 10px;
-    margin-bottom: 10px;
+.pie-chart-container {
+    width: 50%;
 }
 
-#message-input {
-    width: calc(100% - 100px);
-    padding: 10px;
+#expense-form input,
+#expense-form select,
+#savings-form input,
+#balance-form input,
+#budget-form input {
+    display: block;
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
 }
 
-#message-input, button {
-    display: inline-block;
-    vertical-align: top;
+#expense-form button,
+#savings-form button,
+#balance-form button,
+#budget-form button {
+    padding: 0.5em;
+    width: 100%;
+    background-color: #002147;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#expense-form button:hover,
+#savings-form button:hover,
+#balance-form button:hover,
+#budget-form button:hover {
+    background-color: #0056b3;
 }

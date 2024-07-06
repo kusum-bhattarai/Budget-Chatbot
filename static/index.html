@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBud</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>ChatBud</h1>
+    </header>
+    <div class="main-content">
+        <nav class="sidebar">
+            <button id="dashboard-button">Dashboard</button>
+            <button id="expense-entry-button">Add Expense</button>
+        </nav>
+        <div class="page-content">
+            <section id="dashboard" class="page active">
+                <h2>Dashboard</h2>
+                <div id="expense-list"></div>
+                <div class="chart-container">
+                    <canvas id="expense-chart"></canvas>
+                </div>
+                <div class="chart-container pie-chart-container">
+                    <canvas id="expense-pie-chart"></canvas>
+                </div>
+                <p id="savings-goal-display">Savings Goal: $0</p>
+                <p id="monthly-budget-display">Monthly Budget: $0</p>
+                <p id="bank-balance-display">Bank Balance: $0</p>
+                <p id="credit-card-balance-display">Credit Card Balance: $0</p>
+            </section>
+            <section id="expenseEntry" class="page">
+                <h2>Add Expense</h2>
+                <form id="expense-form">
+                    <input type="number" id="amount" placeholder="Amount" required>
+                    <input type="text" id="category" placeholder="Category" required>
+                    <input type="text" id="description" placeholder="Description" required>
+                    <select id="payment-method" required>
+                        <option value="" disabled selected>Payment Method</option>
+                        <option value="bank">Bank</option>
+                        <option value="creditCard">Credit Card</option>
+                    </select>
+                    <button type="submit">Add Expense</button>
+                </form>
+                <h2>Savings Goal</h2>
+                <form id="savings-form">
+                    <input type="number" id="savings-goal" placeholder="Savings Goal" required>
+                    <input type="number" id="amount-saved" placeholder="Amount Saved" required>
+                    <button type="submit">Save</button>
+                </form>
+                <h2>Monthly Budget</h2>
+                <form id="budget-form">
+                    <input type="number" id="monthly-budget" placeholder="Monthly Budget" required>
+                    <button type="submit">Set Budget</button>
+                </form>
+                <h2>Set Balances</h2>
+                <form id="balance-form">
+                    <label for="bank-balance">Bank Balance:</label>
+                    <input type="number" id="bank-balance" placeholder="Bank Balance" required>
+                    <label for="credit-card-balance">Credit Card Balance:</label>
+                    <input type="number" id="credit-card-balance" placeholder="Credit Card Balance" required>
+                    <button type="submit">Update Balances</button>
+                </form>
+            </section>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
