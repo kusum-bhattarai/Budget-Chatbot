@@ -11,6 +11,4 @@ Budget is a simple budgeting web application that helps you track your expenses,
 - View bank and credit card balances.
 - Visualize expenses with bar and pie charts.
 
-<br>
 
-I will be integrating a chatbot that would enable users to chat and get financial advice on how to save and budget properly.
