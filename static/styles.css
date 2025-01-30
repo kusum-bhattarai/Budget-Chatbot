@@ -75,13 +75,37 @@ body {
     background-color: darkred;
 }
 
-.chart-container {
-    width: 80%;
-    margin: 0 auto;
+.dashboard-container {
+    padding: 1em;
+    height: calc(100vh - 150px);
+    overflow-y: auto;
 }
 
-.pie-chart-container {
-    width: 50%;
+.charts-section {
+    display: flex;
+    gap: 2em;
+    margin-bottom: 2em;
+}
+
+.chart-wrapper {
+    flex: 1;
+    max-width: 45%;
+    height: 300px;
+}
+
+.info-section {
+    display: flex;
+    gap: 2em;
+}
+
+#expense-list {
+    flex: 1;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.balance-info {
+    flex: 1;
 }
 
 #expense-form input,

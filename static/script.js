@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let creditCardBalance = parseFloat(JSON.parse(localStorage.getItem('creditCardBalance'))) || 1000;
     let savingsGoal = parseFloat(JSON.parse(localStorage.getItem('savingsGoal'))) || 0;
     let amountSaved = parseFloat(JSON.parse(localStorage.getItem('amountSaved'))) || 0;
+    let expenseChartInstance = null;
+    let expensePieChartInstance = null;
 
     const showPage = (pageId) => {
         console.log(`Switching to page: ${pageId}`);
@@ -37,89 +39,87 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('amountSaved', JSON.stringify(amountSaved));
     };
 
+    const handleDelete = (index) => {
+        const expense = expenses [index];
+        if (expense.paymentMethod == 'bank'){
+            bankBalance += parseFloat(expense.amount);
+        }
+        else if (expense.paymentMethod === 'creditCard') {
+            creditCardBalance -= parseFloat(expense.amount);
+        }
+        budget += parseFloat(expense.amount); 
+        expenses.splice(index, 1);
+        updateLocalStorage();
+        updateExpenseList();
+        updateCharts();
+    }
+
     const updateExpenseList = () => {
-        console.log('Updating expense list:', expenses);
-        expenseList.innerHTML = expenses.map((expense, index) => `
-            <div class="expense-item">
+        expenseList.innerHTML = '';
+        expenses.forEach((expense, index) => {
+            const expenseDiv = document.createElement('div');
+            expenseDiv.className = 'expense-item';
+            expenseDiv.innerHTML = `
                 <span>${expense.description} - ${expense.category} - $${expense.amount} (${expense.paymentMethod})</span>
                 <button class="delete-button" data-index="${index}">Delete</button>
-            </div>
-        `).join('');
-        updateExpenseChart();
-        updateExpensePieChart();
-        document.getElementById('monthly-budget-display').innerText = `Monthly Budget: $${budget}`;
-        document.getElementById('bank-balance-display').innerText = `Bank Balance: $${bankBalance}`;
-        document.getElementById('credit-card-balance-display').innerText = `Credit Card Balance: $${creditCardBalance}`;
-        attachDeleteHandlers();
-    };
-
-    const attachDeleteHandlers = () => {
-        document.querySelectorAll('.delete-button').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const index = e.target.dataset.index;
-                const expense = expenses[index];
-                if (expense.paymentMethod === 'bank') {
-                    bankBalance += parseFloat(expense.amount);
-                } else if (expense.paymentMethod === 'creditCard') {
-                    creditCardBalance -= parseFloat(expense.amount);
-                }
-                budget += parseFloat(expense.amount);
-                expenses.splice(index, 1);
-                updateLocalStorage();
-                updateExpenseList();
-            });
+            `;
+            
+            const deleteButton = expenseDiv.querySelector('.delete-button');
+            deleteButton.addEventListener('click', () => handleDelete(index));
+            
+            expenseList.appendChild(expenseDiv);
         });
+        
+        document.getElementById('monthly-budget-display').innerText = `Monthly Budget: $${budget.toFixed(2)}`;
+        document.getElementById('bank-balance-display').innerText = `Bank Balance: $${bankBalance.toFixed(2)}`;
+        document.getElementById('credit-card-balance-display').innerText = `Credit Card Balance: $${creditCardBalance.toFixed(2)}`;
     };
 
-    const updateExpenseChart = () => {
+    const updateCharts = () => {
+        //bar chart
+        if (expenseChartInstance) {
+            expenseChartInstance.destroy();
+        }
+
         const categories = expenses.reduce((acc, expense) => {
             acc[expense.category] = (acc[expense.category] || 0) + parseFloat(expense.amount);
             return acc;
         }, {});
 
-        const data = {
-            labels: Object.keys(categories),
-            datasets: [{
-                label: 'Expenses',
-                data: Object.values(categories),
-                backgroundColor: 'rgba(75,192,192,0.4)',
-                borderColor: 'rgba(75,192,192,1)',
-            }]
-        };
-
-        new Chart(expenseChart, {
+        expenseChartInstance = new Chart(expenseChart, {
             type: 'bar',
-            data: data,
+            data: {
+                labels: Object.keys(categories),
+                datasets: [{
+                    label: 'Expenses',
+                    data: Object.values(categories),
+                    backgroundColor: 'rgba(75,192,192,0.4)',
+                    borderColor: 'rgba(75,192,192,1)',
+                }]
+            },
             options: {
                 responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+                maintainAspectRatio: false
             }
         });
-    };
 
-    const updateExpensePieChart = () => {
-        const categories = expenses.reduce((acc, expense) => {
-            acc[expense.category] = (acc[expense.category] || 0) + parseFloat(expense.amount);
-            return acc;
-        }, {});
+        //pie chart
+        if (expensePieChartInstance) {
+            expensePieChartInstance.destroy();
+        }
 
-        const data = {
-            labels: Object.keys(categories),
-            datasets: [{
-                data: Object.values(categories),
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
-            }]
-        };
-
-        new Chart(expensePieChart, {
+        expensePieChartInstance = new Chart(expensePieChart, {
             type: 'pie',
-            data: data,
+            data: {
+                labels: Object.keys(categories),
+                datasets: [{
+                    data: Object.values(categories),
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
+                }]
+            },
             options: {
-                responsive: true
+                responsive: true,
+                maintainAspectRatio: false
             }
         });
     };
@@ -135,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Adding expense:', expense);
         expenses.push(expense);
 
+        //updating balances
         if (paymentMethod === 'bank') {
             bankBalance -= amount;
         } else if (paymentMethod === 'creditCard') {
@@ -145,8 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         updateLocalStorage();
         updateExpenseList();
-        document.getElementById('bank-balance-display').innerText = `Bank Balance: $${bankBalance}`;
-        document.getElementById('credit-card-balance-display').innerText = `Credit Card Balance: $${creditCardBalance}`;
+        updateCharts();
         expenseForm.reset();
     });
 

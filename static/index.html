@@ -18,17 +18,24 @@
         <div class="page-content">
             <section id="dashboard" class="page active">
                 <h2>Dashboard</h2>
-                <div id="expense-list"></div>
-                <div class="chart-container">
-                    <canvas id="expense-chart"></canvas>
-                </div>
-                <div class="chart-container pie-chart-container">
-                    <canvas id="expense-pie-chart"></canvas>
-                </div>
-                <p id="savings-goal-display">Savings Goal: $0</p>
-                <p id="monthly-budget-display">Monthly Budget: $0</p>
-                <p id="bank-balance-display">Bank Balance: $0</p>
-                <p id="credit-card-balance-display">Credit Card Balance: $0</p>
+                <div class="dashboard-container">
+                    <div class="charts-section">
+                        <div class="chart-wrapper">
+                            <canvas id="expense-chart"></canvas>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="expense-pie-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="info-section">
+                        <div id="expense-list"></div>
+                        <div class="balance-info">
+                            <p id="savings-goal-display">Savings Goal: $0</p>
+                            <p id="monthly-budget-display">Monthly Budget: $0</p>
+                            <p id="bank-balance-display">Bank Balance: $0</p>
+                            <p id="credit-card-balance-display">Credit Card Balance: $0</p>
+                        </div>
+                    </div>
             </section>
             <section id="expenseEntry" class="page">
                 <h2>Add Expense</h2>
